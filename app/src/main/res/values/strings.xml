@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">InventoryManager</string>
+    <string name="insert_dummy_data">insert_dummy_data</string>
+    <string name="delete_all_entries">delete_all_entries</string>
+</resources>
