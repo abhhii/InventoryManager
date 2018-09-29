@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayDatabaseInfo(){
         mDbHelper = new ItemDbHelper(this);
-
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {ItemContract.ItemEntry._ID,
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             int priceColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_PRICE);
             int supplierColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER);
             int phoneColumnIndex = cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE);
-            Log.e("MainActivity",Integer.toString(nameColumnIndex));
+            Log.e("MainActivityAAAAAAAA",Integer.toString(nameColumnIndex));
 
             while (cursor.moveToNext()){
                 int currentID = cursor.getInt(idColumnIndex);
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         catch (Exception e){
-            Log.e("MainActivity",e.getMessage());
+            Log.e("MainActivityERROR",e.getMessage());
         }
         finally {
             cursor.close();
@@ -100,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
         contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER,"Penguin");
         contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE,"8987456210");
         long new_row_id = db.insert(ItemContract.ItemEntry.TABLE_NAME, null, contentValues);
-        Log.v("MainActivity", new_row_id+"");
+        Log.v("MainActivityIDPRINT", new_row_id+"");
+        displayDatabaseInfo();
     }
 
     @Override
@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_insert_dummy_data:
                 insert_item();
+                //finish();
                 return true;
             case R.id.action_delete_all_entries:
                 return true;
