@@ -33,9 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
     }
-
     @Override
     protected void onStart() {
         super.onStart();
