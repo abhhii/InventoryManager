@@ -46,4 +46,6 @@
 
     <!-- Text hint for phone field in the editor [CHAR LIMIT=30] -->
     <string name="hint_phone_number">Phone Number</string>
+    <string name="empty_view_title_text">Its a bit empty here</string>
+    <string name="empty_view_subtitle_title">Start by Adding an Item</string>
 </resources>
