@@ -4,8 +4,6 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import java.security.PublicKey;
-
 public class ItemContract {
 
     public static final String CONTENT_AUTHORITY = "com.example.abhishek.inventorymanager";

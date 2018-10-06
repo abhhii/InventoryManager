@@ -1,9 +1,11 @@
 package com.example.abhishek.inventorymanager;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -86,6 +88,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Toast.makeText(this, R.string.delete_items_error, Toast.LENGTH_SHORT).show();
     }
 
+
+    private void showDeleteConfirmDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Permanently delete all items?");
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(dialog != null)
+                    dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteAllItems();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -94,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 //finish();
                 return true;
             case R.id.action_delete_all_entries:
-                deleteAllItems();
+                showDeleteConfirmDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
