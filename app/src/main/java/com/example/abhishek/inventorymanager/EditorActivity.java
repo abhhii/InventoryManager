@@ -1,7 +1,11 @@
 package com.example.abhishek.inventorymanager;
 
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +19,8 @@ import android.widget.EditText;
 import com.example.abhishek.inventorymanager.data.ItemContract;
 import com.example.abhishek.inventorymanager.data.ItemDbHelper;
 
-public class EditorActivity extends AppCompatActivity {
+public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    ItemDbHelper mDbHelper;
     private EditText mNameEditText;
     private EditText mPriceEditText;
     private EditText mQuantityEditText;
@@ -55,7 +58,6 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void insert_item(){
-        mDbHelper = new ItemDbHelper(this);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         String nameString = mNameEditText.getText().toString().trim();
@@ -72,5 +74,55 @@ public class EditorActivity extends AppCompatActivity {
         contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE,supplier_phone);
         long new_row_id = db.insert(ItemContract.ItemEntry.TABLE_NAME, null, contentValues);
         Log.v("MainActivityIDPRINT", new_row_id+"");
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        if(mCurrentItemUri == null)
+            return null;
+        String[] projection = new String[]{
+                ItemContract.ItemEntry._ID,
+                ItemContract.ItemEntry.COLUMN_ITEM_NAME,
+                ItemContract.ItemEntry.COLUMN_ITEM_PRICE,
+                ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY,
+                ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER,
+                ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE
+        };
+
+        return new CursorLoader(this, mCurrentItemUri, projection, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if(data == null || data.getCount()<1)
+            return;
+        if(data.moveToFirst()){
+            int nameColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_NAME);
+            int priceColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_PRICE);
+            int quantityColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY);
+            int supplierColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER);
+            int phoneColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE);
+
+            String name = data.getString(nameColumnIndex);
+            int price = data.getInt(priceColumnIndex);
+            int quantity = data.getInt(quantityColumnIndex);
+            String supplier = data.getString(supplierColumnIndex);
+            String phone = data.getString(phoneColumnIndex);
+
+            mNameEditText.setText(name);
+            mPriceEditText.setText(price);
+            mQuantityEditText.setText(quantity);
+            mSupplierEditText.setText(supplier);
+            mSupplierPhoneEditText.setText(phone);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mNameEditText.setText("");
+        mPriceEditText.setText("");
+        mQuantityEditText.setText("");
+        mSupplierEditText.setText("");
+        mSupplierPhoneEditText.setText("");
     }
 }
