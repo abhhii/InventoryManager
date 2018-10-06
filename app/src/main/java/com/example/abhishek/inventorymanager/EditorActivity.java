@@ -55,6 +55,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_editor, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.action_save:
@@ -101,7 +107,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         intent = getIntent();
         mCurrentItemUri = intent.getData();
-
         if(mCurrentItemUri == null)
         {
             setTitle("Add an Item");
@@ -132,10 +137,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplier = mSupplierEditText.getText().toString().trim();
         String supplier_phone = mSupplierPhoneEditText.getText().toString().trim();
 
-        if(TextUtils.isEmpty(nameString) || TextUtils.isEmpty(priceString) ||
-                                        TextUtils.isEmpty(quantityString)){
-            return;
-        }
+        if( TextUtils.isEmpty(nameString) ||
+            TextUtils.isEmpty(priceString) ||
+            TextUtils.isEmpty(quantityString)){
+            return; }
+
         int price = Integer.parseInt(priceString);
         int quantity = Integer.parseInt(quantityString);
 
@@ -167,22 +173,23 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if(mCurrentItemUri != null){
             int rowsDeleted = getContentResolver().delete(mCurrentItemUri, null, null);
             if(rowsDeleted>0)
-                Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.deletion_toast, Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(this, "Error in deleting item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.deletion_error_toast, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void showDeleteConfirmDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Delete this item?");
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.delete_confirm_toast);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteItem();
+                finish();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(dialog != null)
@@ -195,9 +202,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Discard changes and quit editing?");
-        builder.setPositiveButton("Discard", discardButtonClickListener);
-        builder.setNegativeButton("Keep Editing", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.edit_confirm_message);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(dialog != null)
@@ -210,11 +217,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.v("XXXXXXXXXXXX","Inside createLoader");
-        if(mCurrentItemUri == null){
-            Log.v("XXXXXXXXXXXX","Inside createLoader if");
+        if(mCurrentItemUri == null)
             return null;
-        }
+
         String[] projection = new String[]{
                 ItemContract.ItemEntry._ID,
                 ItemContract.ItemEntry.COLUMN_ITEM_NAME,
@@ -230,10 +235,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if(data == null || data.getCount()<1){
-            Log.v("XXXXXXXXXXXX","Inside finishLoader if");
             return;
         }
-        Log.v("XXXXXXXXXXXX","After finishLoader if");
         if(data.moveToFirst()){
             int nameColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_NAME);
             int priceColumnIndex = data.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_PRICE);

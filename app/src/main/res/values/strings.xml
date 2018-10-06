@@ -48,4 +48,14 @@
     <string name="hint_phone_number">Phone Number</string>
     <string name="empty_view_title_text">Its a bit empty here</string>
     <string name="empty_view_subtitle_title">Start by Adding an Item</string>
+    <string name="deletion_toast">Item Deleted</string>
+    <string name="deletion_error_toast">Error in deleting item</string>
+    <string name="delete_confirm_toast">Delete this item?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_confirm_message">Discard changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="items_deleted">All Items deleted</string>
+    <string name="delete_items_error">Error deleting items</string>
 </resources>

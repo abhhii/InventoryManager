@@ -81,9 +81,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void deleteAllItems(){
         int rowsDeleted = getContentResolver().delete(ItemContract.ItemEntry.CONTENT_URI, null, null);
         if(rowsDeleted>0)
-            Toast.makeText(this, "All Items deleted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.items_deleted, Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this, "Deletion failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.delete_items_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
