@@ -70,14 +70,8 @@
             <EditText
                 android:id="@+id/edit_supplier_phone"
                 android:hint="@string/hint_phone_number"
-                android:inputType="textCapWords"
+                android:inputType="phone"
                 style="@style/EditorFieldStyle" />
-
         </LinearLayout>
     </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:id="@+id/save"/>
 </LinearLayout>

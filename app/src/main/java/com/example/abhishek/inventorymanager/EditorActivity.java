@@ -1,10 +1,13 @@
 package com.example.abhishek.inventorymanager;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,26 +23,35 @@ public class EditorActivity extends AppCompatActivity {
     private EditText mQuantityEditText;
     private EditText mSupplierEditText;
     private EditText mSupplierPhoneEditText;
-    private Button mSave;
+    Intent intent;
+    Uri mCurrentItemUri;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_editor, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        intent = getIntent();
+        mCurrentItemUri = intent.getData();
+
+        if(mCurrentItemUri == null)
+        {
+            setTitle("Add an Item");
+        }
+        else
+            setTitle("Edit an Item");
+
         mNameEditText = (EditText)findViewById(R.id.edit_item_name);
         mPriceEditText = (EditText)findViewById(R.id.edit_item_price);
         mQuantityEditText = (EditText)findViewById(R.id.edit_item_quantity);
         mSupplierEditText = (EditText)findViewById(R.id.edit_item_supplier);
         mSupplierPhoneEditText = (EditText)findViewById(R.id.edit_supplier_phone);
-        mSave = (Button)findViewById(R.id.save);
-        mSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                insert_item();
-                finish();
-            }
-        });
     }
 
     private void insert_item(){
