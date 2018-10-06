@@ -1,19 +1,24 @@
 package com.example.abhishek.inventorymanager;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,14 +26,23 @@ import com.example.abhishek.inventorymanager.data.ItemContract;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
+    public static final int EXISTING_ITEM_LOADER = 0;
     private EditText mNameEditText;
     private EditText mPriceEditText;
     private EditText mQuantityEditText;
     private EditText mSupplierEditText;
     private EditText mSupplierPhoneEditText;
+    private Uri mCurrentItemUri;
+    private boolean mItemHasChanged;
     Intent intent;
-    Uri mCurrentItemUri;
-    public static final int EXISTING_ITEM_LOADER = 0;
+
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            mItemHasChanged = true;
+            return false;
+        }
+    };
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -38,6 +52,46 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             menuItem.setVisible(false);
         }
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_save:
+                saveItem();
+                finish();
+            case R.id.action_delete:
+                showDeleteConfirmDialog();
+                return true;
+            case android.R.id.home:
+                if(!mItemHasChanged){
+                    NavUtils.navigateUpFromSameTask(this);
+                    return true;
+                }
+                DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                    }
+                };
+                showUnsavedChangesDialog(discardButtonClickListener);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!mItemHasChanged){
+            super.onBackPressed();
+            return;
+        }
+        DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        };
+        showUnsavedChangesDialog(discardButtonClickListener);
     }
 
     @Override
@@ -61,6 +115,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityEditText = (EditText)findViewById(R.id.edit_item_quantity);
         mSupplierEditText = (EditText)findViewById(R.id.edit_item_supplier);
         mSupplierPhoneEditText = (EditText)findViewById(R.id.edit_supplier_phone);
+
+        mNameEditText.setOnTouchListener(mTouchListener);
+        mPriceEditText.setOnTouchListener(mTouchListener);
+        mQuantityEditText.setOnTouchListener(mTouchListener);
+        mSupplierEditText.setOnTouchListener(mTouchListener);
+        mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
         getLoaderManager().initLoader(EXISTING_ITEM_LOADER, null, this);
     }
@@ -101,6 +161,51 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             else
                 Toast.makeText(this, "Update successful",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void deleteItem(){
+        if(mCurrentItemUri != null){
+            int rowsDeleted = getContentResolver().delete(mCurrentItemUri, null, null);
+            if(rowsDeleted>0)
+                Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Error in deleting item", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showDeleteConfirmDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete this item?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteItem();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(dialog != null)
+                    dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Discard changes and quit editing?");
+        builder.setPositiveButton("Discard", discardButtonClickListener);
+        builder.setNegativeButton("Keep Editing", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(dialog != null)
+                    dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override
