@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -128,7 +129,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String[] projection = new String[]{
                 ItemContract.ItemEntry._ID,
                 ItemContract.ItemEntry.COLUMN_ITEM_NAME,
-                ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY};
+                ItemContract.ItemEntry.COLUMN_ITEM_PRICE,
+                ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY,
+                ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER,
+                ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE};
 
         return new CursorLoader(this, ItemContract.ItemEntry.CONTENT_URI, projection, null, null, null);
     }

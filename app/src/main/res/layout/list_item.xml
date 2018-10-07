@@ -1,25 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Layout for a single list item in the list of items -->
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:padding="@dimen/activity_margin">
-
+    <LinearLayout
+        android:id="@+id/root_linearView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toLeftOf="@id/separator"
+        android:layout_toStartOf="@id/separator">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp">
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="#2B3D4D"  />
+            <TextView
+                android:id="@+id/currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/item_price"
+                android:layout_toLeftOf="@id/item_price"
+                android:text="@string/rs"
+                android:textAppearance="?android:textAppearanceMedium"/>
+            <TextView
+                android:id="@+id/item_price"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="#2B3D4D"  />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp">
+            <TextView
+                android:id="@+id/left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="sans-serif"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="#AAAAAA"
+                android:layout_weight="3"
+                android:text="@string/items_remaining"/>
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="#AAAAAA"  />
+        </LinearLayout>
+    </LinearLayout>
     <TextView
-        android:id="@+id/item_name"
+        android:id="@+id/separator"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/sale"
+        android:layout_toLeftOf="@id/sale"
+        android:background="#000000"
+        android:text="T"
+        android:textSize="32sp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true" />
+
+    <Button
+        android:id="@+id/sale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"  />
+        android:text="@string/sale"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"/>
 
-    <TextView
-        android:id="@+id/summary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD"  />
-</LinearLayout>
+</RelativeLayout>

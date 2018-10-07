@@ -58,4 +58,7 @@
     <string name="keep_editing">Keep Editing</string>
     <string name="items_deleted">All Items deleted</string>
     <string name="delete_items_error">Error deleting items</string>
+    <string name="sale">SALE</string>
+    <string name="items_remaining">Item remaining:</string>
+    <string name="rs">\u20B9</string>
 </resources>
