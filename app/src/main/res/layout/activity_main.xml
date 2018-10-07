@@ -57,6 +57,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
-        android:src="@drawable/ic_plus"
-        />
+        android:src="@drawable/ic_plus" />
 </RelativeLayout>
