@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -21,10 +22,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.abhishek.inventorymanager.data.ItemContract;
+
+import static android.widget.Toast.makeText;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -37,6 +41,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private Uri mCurrentItemUri;
     private boolean mItemHasChanged;
     Intent intent;
+    Toast toast;
+    Integer quantity_change = 1;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -107,7 +113,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
@@ -143,6 +149,71 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 startActivity(phoneIntent);
             }
         });
+
+        ImageButton increase = (ImageButton)findViewById(R.id.increment);
+        ImageButton decrease = (ImageButton)findViewById(R.id.decrement);
+        final ImageButton changeValue = (ImageButton)findViewById(R.id.change);
+
+        increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String quantityString = mQuantityEditText.getText().toString();
+                Integer quantity;
+                if(quantityString.equals(""))
+                    quantity = 0;
+                else
+                    quantity = Integer.parseInt(quantityString);
+                quantity = quantity + quantity_change;
+                mQuantityEditText.setText(quantity.toString());
+                saveItem();
+            }
+        });
+        decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String quantityString = mQuantityEditText.getText().toString();
+                Integer quantity;
+                Log.e("sfrvrevsrvfdv", quantityString);
+                if(quantityString.equals(""))
+                    quantity = 0;
+                else
+                    quantity = Integer.parseInt(quantityString);
+                if(quantity >= quantity_change){
+                    quantity = quantity - quantity_change;
+                    mQuantityEditText.setText(quantity.toString());
+                    saveItem();
+                }
+            }
+        });
+        changeValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
+                builder.setTitle("Set increment/decrement value");
+
+                final EditText input = new EditText(EditorActivity.this);
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                builder.setView(input);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String temp = input.getText().toString();
+                        if(temp.equals(""))
+                            temp = "1";
+                        quantity_change = Integer.parseInt(temp);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            }
+        });
+
     }
 
     private void saveItem(){
@@ -170,27 +241,47 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if(mCurrentItemUri == null){
             Uri newUri = getContentResolver().insert(ItemContract.ItemEntry.CONTENT_URI, contentValues);
             if(newUri == null){
-                Toast.makeText(this,"Insertion failed",Toast.LENGTH_SHORT).show();
+                if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                    toast.cancel();
+                toast = makeText(this,"Insertion failed",Toast.LENGTH_SHORT);
+                toast.show();
             }else{
-                Toast.makeText(this,"Item inserted",Toast.LENGTH_SHORT).show();
+                if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                    toast.cancel();
+                toast = makeText(this,"Item inserted",Toast.LENGTH_SHORT);
+                toast.show();
             }
         }
         else {
             int rowsAffected = getContentResolver().update(mCurrentItemUri, contentValues, null, null);
-            if(rowsAffected == 0 )
-                Toast.makeText(this, "Update failed!",Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(this, "Update successful",Toast.LENGTH_SHORT).show();
+            if(rowsAffected == 0 ){
+                if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                    toast.cancel();
+                toast = makeText(this, "Update failed!",Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else{
+                if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                    toast.cancel();
+                toast = makeText(this, "Update successful",Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
         }
     }
 
     private void deleteItem(){
         if(mCurrentItemUri != null){
             int rowsDeleted = getContentResolver().delete(mCurrentItemUri, null, null);
-            if(rowsDeleted>0)
-                Toast.makeText(this, R.string.deletion_toast, Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(this, R.string.deletion_error_toast, Toast.LENGTH_SHORT).show();
+            if(rowsDeleted>0){
+                toast = makeText(this, R.string.deletion_toast, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else{
+                toast = makeText(this, R.string.deletion_error_toast, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
         }
     }
 

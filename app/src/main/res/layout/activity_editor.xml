@@ -101,6 +101,17 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_plus" />
+
+            <!--Change Increment/Decrement Value-->
+            <ImageButton
+                android:id="@+id/change"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_mode_edit"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"/>
+
         </LinearLayout>
     </LinearLayout>
 
