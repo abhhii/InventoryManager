@@ -19,7 +19,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.abhishek.inventorymanager.data.ItemContract;
@@ -29,7 +31,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public static final int EXISTING_ITEM_LOADER = 0;
     private EditText mNameEditText;
     private EditText mPriceEditText;
-    private EditText mQuantityEditText;
+    private TextView mQuantityEditText;
     private EditText mSupplierEditText;
     private EditText mSupplierPhoneEditText;
     private Uri mCurrentItemUri;
@@ -50,6 +52,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if(mCurrentItemUri == null){
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
+        }
+        else {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
         return true;
     }
@@ -117,7 +123,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         mNameEditText = (EditText)findViewById(R.id.edit_item_name);
         mPriceEditText = (EditText)findViewById(R.id.edit_item_price);
-        mQuantityEditText = (EditText)findViewById(R.id.edit_item_quantity);
+        mQuantityEditText = (TextView)findViewById(R.id.edit_item_quantity);
         mSupplierEditText = (EditText)findViewById(R.id.edit_item_supplier);
         mSupplierPhoneEditText = (EditText)findViewById(R.id.edit_supplier_phone);
 
@@ -128,6 +134,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
         getLoaderManager().initLoader(EXISTING_ITEM_LOADER, null, this);
+
+        Button order = (Button)findViewById(R.id.order);
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+ mSupplierPhoneEditText.getText()));
+                startActivity(phoneIntent);
+            }
+        });
     }
 
     private void saveItem(){
