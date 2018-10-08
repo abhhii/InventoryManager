@@ -61,4 +61,12 @@
     <string name="sale">SALE</string>
     <string name="items_remaining">Item remaining:</string>
     <string name="rs">\u20B9</string>
+    <string name="change_increment">Set increment/decrement value</string>
+    <string name="OK">OK</string>
+    <string name="name_label">Product Name*:</string>
+    <string name="price_label">Price*:</string>
+    <string name="quantity_label">Quantity:*</string>
+    <string name="supplier_label">Supplier:</string>
+    <string name="supplier_phone_label">Supplier Phone:</string>
+    <string name="order">ORDER</string>
 </resources>

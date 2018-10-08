@@ -165,7 +165,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                     quantity = Integer.parseInt(quantityString);
                 quantity = quantity + quantity_change;
                 mQuantityEditText.setText(quantity.toString());
-                saveItem();
+                if(mCurrentItemUri != null)
+                    saveItem();
             }
         });
         decrease.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +182,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 if(quantity >= quantity_change){
                     quantity = quantity - quantity_change;
                     mQuantityEditText.setText(quantity.toString());
-                    saveItem();
+                    if(mCurrentItemUri != null)
+                        saveItem();
                 }
             }
         });
@@ -189,13 +191,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
-                builder.setTitle("Set increment/decrement value");
+                builder.setTitle(R.string.change_increment);
 
                 final EditText input = new EditText(EditorActivity.this);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 builder.setView(input);
 
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String temp = input.getText().toString();
@@ -204,7 +206,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         quantity_change = Integer.parseInt(temp);
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();

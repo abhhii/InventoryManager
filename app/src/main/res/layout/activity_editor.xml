@@ -25,7 +25,7 @@
         <!--Label-->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Product Name:" />
+            android:text="@string/name_label" />
 
         <!--Name Field-->
         <EditText
@@ -44,7 +44,7 @@
         <!--Label-->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Price:" />
+            android:text="@string/price_label" />
 
         <!-- Price field -->
         <EditText
@@ -63,7 +63,7 @@
         <!--Label-->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Quantity:" />
+            android:text="@string/quantity_label" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -91,7 +91,6 @@
                 android:layout_marginRight="2dp"
                 android:layout_marginStart="5dp"
                 android:hint="@string/hint_quantity"
-                android:inputType="number"
                 android:textAppearance="?android:textAppearanceMedium" />
 
             <!--Increment-->
@@ -124,7 +123,7 @@
         <!--Label-->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Supplier:" />
+            android:text="@string/supplier_label" />
 
         <!--Supplier Field-->
         <EditText
@@ -143,7 +142,7 @@
         <!--Label-->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Supplier Phone:" />
+            android:text="@string/supplier_phone_label" />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -162,7 +161,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="ORDER"
+                android:layout_alignParentEnd="true"
+                android:text="@string/order"
                 android:textAllCaps="true" />
         </RelativeLayout>
     </LinearLayout>
