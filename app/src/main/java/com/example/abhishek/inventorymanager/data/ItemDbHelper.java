@@ -27,6 +27,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        // Do nothing for now
+        // Add drop or alter scripts as required
     }
 }
