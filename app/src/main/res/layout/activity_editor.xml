@@ -87,29 +87,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginRight="2dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginLeft="@dimen/imagebutton_margin"
+                android:layout_marginStart="@dimen/imagebutton_margin"
                 android:hint="@string/hint_quantity"
                 android:textAppearance="?android:textAppearanceMedium" />
 
             <!--Increment-->
             <ImageButton
                 android:id="@+id/increment"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/imagebutton_height"
+                android:layout_height="@dimen/imagebutton_height"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_plus" />
 
             <!--Change Increment/Decrement Value-->
             <ImageButton
                 android:id="@+id/change"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/imagebutton_height"
+                android:layout_height="@dimen/imagebutton_height"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_mode_edit"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"/>
+                android:layout_marginLeft="@dimen/imagebutton_margin"
+                android:layout_marginStart="@dimen/imagebutton_margin"/>
 
         </LinearLayout>
     </LinearLayout>
