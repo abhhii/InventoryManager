@@ -227,7 +227,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         if( TextUtils.isEmpty(nameString) ||
             TextUtils.isEmpty(priceString) ||
-            TextUtils.isEmpty(quantityString)){
+            TextUtils.isEmpty(quantityString) ||
+            TextUtils.isEmpty(supplier) ||
+            TextUtils.isEmpty(supplier_phone)){
+            if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                toast.cancel();
+            toast = makeText(this, "One or more required field is Empty!",Toast.LENGTH_LONG);
+            toast.show();
             return; }
 
         int price = Integer.parseInt(priceString);

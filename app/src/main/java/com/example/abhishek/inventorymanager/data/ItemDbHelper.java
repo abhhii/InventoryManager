@@ -20,8 +20,8 @@ public class ItemDbHelper extends SQLiteOpenHelper {
                 ItemContract.ItemEntry.COLUMN_ITEM_NAME+" TEXT NOT NULL,"+
                 ItemContract.ItemEntry.COLUMN_ITEM_PRICE+ " INTEGER NOT NULL,"+
                 ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY+ " INTEGER NOT NULL,"+
-                ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER+ " TEXT,"+
-                ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE+ " TEXT);";
+                ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER+ " TEXT NOT NULL,"+
+                ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE+ " TEXT NOT NULL);";
         db.execSQL(SQL_CREATE_ITEMS_TABLE);
     }
 
