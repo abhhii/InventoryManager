@@ -5,103 +5,110 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="6dp"
-    app:cardElevation="6dp">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/activity_margin"
-    android:descendantFocusability="blocksDescendants">
-    <LinearLayout
-        android:id="@+id/root_linearView"
+    app:cardElevation="6dp"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_marginBottom="3dp">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_toLeftOf="@id/separator"
-        android:layout_toStartOf="@id/separator">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp">
-            <TextView
-                android:id="@+id/item_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="#2B3D4D"  />
-            <TextView
-                android:id="@+id/currency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/item_price"
-                android:layout_toLeftOf="@id/item_price"
-                android:text="@string/rs"
-                android:textAppearance="?android:textAppearanceMedium"/>
-            <TextView
-                android:id="@+id/item_price"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="#2B3D4D"  />
-        </RelativeLayout>
+        android:padding="@dimen/activity_margin"
+        android:descendantFocusability="blocksDescendants">
         <LinearLayout
+            android:id="@+id/root_linearView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp">
-            <TextView
-                android:id="@+id/left"
-                android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_toLeftOf="@id/separator"
+            android:layout_toStartOf="@id/separator">
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:fontFamily="sans-serif"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="#AAAAAA"
-                android:layout_weight="3"
-                android:text="@string/items_remaining"/>
-            <TextView
-                android:id="@+id/quantity"
-                android:layout_weight="1"
-                android:layout_width="0dp"
+                android:orientation="horizontal"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp">
+                <TextView
+                    android:id="@+id/item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/label_color"
+                    tools:text="Sample Item"/>
+                <TextView
+                    android:id="@+id/currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/item_price"
+                    android:layout_toLeftOf="@id/item_price"
+                    android:text="@string/rs"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    tools:text="@string/rs"/>
+                <TextView
+                    android:id="@+id/item_price"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/label_color"
+                    tools:text="500"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:layout_gravity="end"
-                android:gravity="end"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="#AAAAAA"  />
+                android:orientation="horizontal"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp">
+                <TextView
+                    android:id="@+id/left"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/grey"
+                    android:layout_weight="3"
+                    android:text="@string/items_remaining"
+                    tools:text = "5"/>
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/grey"
+                    tools:text="20"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-    <TextView
-        android:id="@+id/separator"
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/sale"
-        android:layout_toLeftOf="@id/sale"
-        android:background="#000000"
-        android:text="T"
-        android:textSize="32sp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true" />
+        <TextView
+            android:id="@+id/separator"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/sale"
+            android:layout_toLeftOf="@id/sale"
+            android:background="@color/black"
+            android:text="T"
+            android:textSize="32sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true" />
 
-    <Button
-        android:id="@+id/sale"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sale"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="4dp"/>
-
-</RelativeLayout>
+        <Button
+            android:id="@+id/sale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sale"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"/>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>
