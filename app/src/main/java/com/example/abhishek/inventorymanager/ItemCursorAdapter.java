@@ -5,7 +5,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.util.Log;
+import android.util.TimeFormatException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,11 @@ import android.widget.Toast;
 
 import com.example.abhishek.inventorymanager.data.ItemContract;
 
+import static android.widget.Toast.makeText;
+
 public class ItemCursorAdapter extends CursorAdapter{
+
+    private Toast toast;
 
     public ItemCursorAdapter(Context context, Cursor c){
         super(context, c, 0);
@@ -36,11 +42,8 @@ public class ItemCursorAdapter extends CursorAdapter{
         final String name = cursor.getString(cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_NAME));
         final Integer quantity = cursor.getInt(cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY));
         final Integer price = cursor.getInt(cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_PRICE));
-        Log.v("XXXXXXXXXX","All is well");
         final String supplier = cursor.getString(cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER));
-        Log.v("XXXXXXXXXX","Pass 1");
         final String supplier_phone = cursor.getString(cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE));
-        Log.v("XXXXXXXXXX","Pass 2");
 
         nameText.setText(name);
         quantityText.setText(Integer.toString(quantity));
@@ -55,12 +58,16 @@ public class ItemCursorAdapter extends CursorAdapter{
                 cursor.moveToPosition(position);
                 Integer currentQuantity = Integer.parseInt(quantityText.getText().toString());
                 if(currentQuantity == 0){
-                    Toast.makeText(view.getContext(), "No item available. Please place an order", Toast.LENGTH_SHORT).show();
+                    if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                        toast.cancel();
+                    toast = makeText(view.getContext(), "No item available. Please place an order", Toast.LENGTH_SHORT);
+                    toast.show();
                     return;
                 }
                 currentQuantity-=1;
                 quantityText.setText(Integer.toString(currentQuantity));
-                Uri currentUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI, position);
+                int currentItemId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
+                Uri currentUri = ContentUris.withAppendedId(ItemContract.ItemEntry.CONTENT_URI, currentItemId);
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_NAME, name);
                 contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_PRICE, price);
