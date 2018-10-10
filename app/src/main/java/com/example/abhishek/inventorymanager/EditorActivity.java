@@ -77,7 +77,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         switch(item.getItemId()){
             case R.id.action_save:
                 saveItem();
-                finish();
+                return true;
             case R.id.action_delete:
                 showDeleteConfirmDialog();
                 return true;
@@ -234,47 +234,50 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 toast.cancel();
             toast = makeText(this, "One or more required field is Empty!",Toast.LENGTH_LONG);
             toast.show();
-            return; }
-
-        int price = Integer.parseInt(priceString);
-        int quantity = Integer.parseInt(quantityString);
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_NAME,nameString);
-        contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_PRICE,price);
-        contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY,quantity);
-        contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER,supplier);
-        contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE,supplier_phone);
-
-        if(mCurrentItemUri == null){
-            Uri newUri = getContentResolver().insert(ItemContract.ItemEntry.CONTENT_URI, contentValues);
-            if(newUri == null){
-                if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
-                    toast.cancel();
-                toast = makeText(this,"Insertion failed",Toast.LENGTH_SHORT);
-                toast.show();
-            }else{
-                if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
-                    toast.cancel();
-                toast = makeText(this,"Item inserted",Toast.LENGTH_SHORT);
-                toast.show();
-            }
+//            return;
         }
-        else {
-            int rowsAffected = getContentResolver().update(mCurrentItemUri, contentValues, null, null);
-            if(rowsAffected == 0 ){
-                if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
-                    toast.cancel();
-                toast = makeText(this, "Update failed!",Toast.LENGTH_SHORT);
-                toast.show();
-            }
-            else{
-                if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
-                    toast.cancel();
-                toast = makeText(this, "Update successful",Toast.LENGTH_SHORT);
-                toast.show();
-            }
+        else{
+            int price = Integer.parseInt(priceString);
+            int quantity = Integer.parseInt(quantityString);
 
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_NAME,nameString);
+            contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_PRICE,price);
+            contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_QUANTITY,quantity);
+            contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER,supplier);
+            contentValues.put(ItemContract.ItemEntry.COLUMN_ITEM_SUPPLIER_PHONE,supplier_phone);
+
+            if(mCurrentItemUri == null){
+                Uri newUri = getContentResolver().insert(ItemContract.ItemEntry.CONTENT_URI, contentValues);
+                if(newUri == null){
+                    if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                        toast.cancel();
+                    toast = makeText(this,"Insertion failed",Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                        toast.cancel();
+                    toast = makeText(this,"Item inserted",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+            else {
+                int rowsAffected = getContentResolver().update(mCurrentItemUri, contentValues, null, null);
+                if(rowsAffected == 0 ){
+                    if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                        toast.cancel();
+                    toast = makeText(this, "Update failed!",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else{
+                    if(toast != null && toast.getView().getWindowVisibility() == View.VISIBLE)
+                        toast.cancel();
+                    toast = makeText(this, "Update successful",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
+            }
+            finish();
         }
     }
 
