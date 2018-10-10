@@ -165,8 +165,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                     quantity = Integer.parseInt(quantityString);
                 quantity = quantity + quantity_change;
                 mQuantityEditText.setText(quantity.toString());
-                if(mCurrentItemUri != null)
-                    saveItem();
             }
         });
         decrease.setOnClickListener(new View.OnClickListener() {
@@ -182,8 +180,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 if(quantity >= quantity_change){
                     quantity = quantity - quantity_change;
                     mQuantityEditText.setText(quantity.toString());
-                    if(mCurrentItemUri != null)
-                        saveItem();
                 }
             }
         });
