@@ -51,7 +51,7 @@
             android:id="@+id/edit_item_price"
             style="@style/EditorFieldStyle"
             android:hint="@string/hint_price"
-            android:inputType="textCapWords" />
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <!--Quantity Field-->
